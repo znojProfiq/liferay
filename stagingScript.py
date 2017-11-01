@@ -17,7 +17,7 @@ print "Set full path (not relative) to liferay portal"
 liferayPath = raw_input("or leave blank (enter) if script is in root of portal folder: ")
 if len(liferayPath) == 0:
     liferayPath = os.getcwd()
-print "Path to liferay folder is: " + liferayPath
+print "Path to liferay folder is: " + liferayPath + "\n"
 
 isMySQL = raw_input("isMySQL? (y/Enter - n): ")
 if isMySQL != "n":
@@ -29,17 +29,16 @@ if isMySQL != "n":
     if len(sqlPass) == 0:
         sqlPass = "MyNewPass4!"
 
-    print "MySQL credentials:"
-    print "name: " + sqlName + ", pass: " + sqlPass
+    print "### MySQL credentials ###"
+    print "name: " + sqlName + ", pass: " + sqlPass + "\n"
 else:
-    print("No MySQL")
+    print("No MySQL\n")
 
 # the additional IP addresses used in the Hosts allowed field.
 ipToAllow = raw_input("Set IP to allow (whole address, or just 3 last numbers for 192.168.88.XXX): ")
 if len(ipToAllow) <= 3:
     ipToAllow = "192.168.88." + ipToAllow
-print "IP TO ALLOW: " + ipToAllow
-
+print "IP TO ALLOW: " + ipToAllow + "\n"
 
 createFile = raw_input("Write data to portal-ext.properties (replace if exists)? (y/Enter - n): ")
 if createFile != "n":
@@ -63,7 +62,8 @@ if createFile != "n":
     # mysql connection
     if isMySQL != "n":
         filePortal.write("jdbc.default.driverClassName=com.mysql.jdbc.Driver\n")
-        filePortal.write("jdbc.default.url=jdbc:mysql://localhost/lportal?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false\n")
+        filePortal.write(
+            "jdbc.default.url=jdbc:mysql://localhost/lportal?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false\n")
         filePortal.write("jdbc.default.username=" + sqlName + "\n")
         filePortal.write("jdbc.default.password=" + sqlPass + "\n")
         print "mySQL connection set up in " + filePortalName
@@ -98,12 +98,12 @@ if createFile != "n":
         print "Click /api/liferay/do and insert " + ipToAllow
         print "Then select Update."
         print "RESTART"
-        print "####################################################################################"
+        print "####################################################################################\n"
 
     # Close opened file
     filePortal.close()
 
-    setSetupWizard = raw_input("Skip setup wizard and create config file? (y/Enter - n): ")
+    setSetupWizard = raw_input("Skip setup wizard in web and create config file from here? (y/Enter - n): ")
     if setSetupWizard != "n":
         fileSetupWizardName = "portal-setup-wizard.properties"
         fileSetupWizardName = os.path.join(liferayPath, fileSetupWizardName)
@@ -125,6 +125,7 @@ if createFile != "n":
 
         # Close opened file
         fileSetupWizard.close()
+        print fileSetupWizardName + " created or updated\n"
 
 dropDb = raw_input("Show commands to Drop db? (y/Enter - n): ")
 if dropDb != "n":
@@ -137,19 +138,25 @@ if dropDb != "n":
     print "DROP DATABASE lportal;"
     print "CREATE DATABASE lportal CHARACTER SET utf8 COLLATE utf8_general_ci;"
     print ""
-    print "####################################################################################"
-
+    print "####################################################################################\n"
 
 turnOffFirewall = raw_input("Turn off firewall? (Important for RedHat / CentOs) (y/Enter - n): ")
 if turnOffFirewall != "n":
+    print "turn off firewall"
     os.system("sudo service firewalld stop")
+    print ""
 
 downloadRebootScript = raw_input("Download reboot.sh script to folder \"tomcat-8.0.32/bin/\"? (y/Enter - n): ")
 if downloadRebootScript != "n":
     tomcatBinPath = os.path.join(liferayPath, "tomcat-8.0.32")
     tomcatBinPath = os.path.join(tomcatBinPath, "bin")
     tomcatBinPath = os.path.join(tomcatBinPath, "reboot.sh")
+    print "file " + tomcatBinPath + " will be downloaded by curl"
     os.system("curl -o " + tomcatBinPath + " https://raw.githubusercontent.com/znojProfiq/liferay/master/reboot.sh")
+    print "extend permissions for " + tomcatBinPath
+    os.system("chmod +777 " + tomcatBinPath)
+    print ""
+
 run = raw_input("Run liferay? (y/Enter - n): ")
 if run != "n":
     run = raw_input("Without log? (y/Enter - n) n == with a full log: ")
@@ -157,3 +164,5 @@ if run != "n":
         os.system("tomcat-8.0.32/bin/startup.sh")
     else:
         os.system("tomcat-8.0.32/bin/catalina.sh run")
+
+print "Script finished successfully"
