@@ -144,6 +144,12 @@ turnOffFirewall = raw_input("Turn off firewall? (Important for RedHat / CentOs) 
 if turnOffFirewall != "n":
     os.system("sudo service firewalld stop")
 
+downloadRebootScript = raw_input("Download reboot.sh script to folder \"tomcat-8.0.32/bin/\"? (y/Enter - n): ")
+if downloadRebootScript != "n":
+    tomcatBinPath = os.path.join(liferayPath, "tomcat-8.0.32")
+    tomcatBinPath = os.path.join(tomcatBinPath, "bin")
+    tomcatBinPath = os.path.join(tomcatBinPath, "reboot.sh")
+    os.system("curl -o " + tomcatBinPath + " https://github.com/znojProfiq/liferay/blob/master/reboot.sh")
 run = raw_input("Run liferay? (y/Enter - n): ")
 if run != "n":
     run = raw_input("Without log? (y/Enter - n) n == with a full log: ")
