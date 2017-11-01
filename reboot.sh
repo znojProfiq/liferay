@@ -20,7 +20,7 @@ if [ -f $logFile ]; then
 				lastLineOfFile=$(tail -n 2 $logFile)
 				message="Destroying ProtocolHandler \[\"ajp-nio-8009\"\]"
 				if [[ $lastLineOfFile == *$message* ]]; then
-					echo "Server stopped."
+					echo "\nServer stopped.\n"
 					break
 				fi
 			else
@@ -46,7 +46,7 @@ while sleep 1; do
 			lastLineOfFile=$(tail -n 2 $logFile)
 			message="org.apache.catalina.startup.Catalina.start Server startup in" # [0-9]* ms$
 			if [[ $lastLineOfFile == *$message* ]]; then
-				printf "\nServer is running\n"
+				printf "\nServer is running.\n"
 				exit 1;
 			else
 				printf "."

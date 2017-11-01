@@ -19,7 +19,7 @@ if len(liferayPath) == 0:
     liferayPath = os.getcwd()
 print "Path to liferay folder is: " + liferayPath + "\n"
 
-isMySQL = raw_input("isMySQL? (y/Enter - n): ")
+isMySQL = raw_input("Using custom MySQL? (y/Enter - n): ")
 if isMySQL != "n":
     print("MySQL db configuration")
     sqlName = raw_input("mySQL name (blank for \"root\")")
