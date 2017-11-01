@@ -149,7 +149,7 @@ if downloadRebootScript != "n":
     tomcatBinPath = os.path.join(liferayPath, "tomcat-8.0.32")
     tomcatBinPath = os.path.join(tomcatBinPath, "bin")
     tomcatBinPath = os.path.join(tomcatBinPath, "reboot.sh")
-    os.system("curl -o " + tomcatBinPath + " https://github.com/znojProfiq/liferay/blob/master/reboot.sh")
+    os.system("curl -o " + tomcatBinPath + " https://raw.githubusercontent.com/znojProfiq/liferay/master/reboot.sh")
 run = raw_input("Run liferay? (y/Enter - n): ")
 if run != "n":
     run = raw_input("Without log? (y/Enter - n) n == with a full log: ")
